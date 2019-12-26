@@ -1,4 +1,4 @@
-# Hello
+# Algorithms I
 
 Just a collection of notes as I work through any coding problems. 
 
