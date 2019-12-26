@@ -1,22 +1,7 @@
-# algorithms-1
+# Hello
 
-A Clojure library designed to ... well, that part is up to you.
+Just a collection of notes as I work through any coding problems. 
 
-## Usage
+## Karatsuba Multiplication
 
-FIXME
-
-## License
-
-Copyright © 2019 FIXME
-
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
-
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+Implementing this algorithm seemed straight forward, and the aside on it being an improvement over the third grade algorithm was fun, but there was snag. It's all simple until the numbers split into something where one of them isn't a power of 2, e.g. multiplyiny `46 * 134`. That's where it becomes a bit less straightfoward how to calculate `n` and how to split the numbers. The reality is they must be powers of 2, and actually already are, as long as the numbers are padded, e.g. 0046 and 0134. That's what the `halves` and `compute-n` code aims to do and after that, implementing the calculations is straight forward. It really helped to calculate out a product by hand to understand how to handle the "edge cases".
