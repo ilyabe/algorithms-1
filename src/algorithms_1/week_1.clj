@@ -72,3 +72,63 @@
   (merge-sort [8 7 6 3])
   (merge-sort [8 7 6 3 4])
   (merge-sort (take 10000 (map rand-int (repeat 10000)))))
+
+;; Second Place
+
+;; Divide
+;; Base: coll size 2
+;;;; return: [max, [others]]
+
+;; Conquer
+;; if (first a) > (first b)
+;;;; [a (concat (second a) [(first b)] (second b))]
+;;;; [b (concat (second b) [(first a)] (second a))]
+
+;; Divide
+;; [12 24 6 4 56 32 98 100]
+;; [12 24 6 4]  [56 32 98 100]
+;; [12 24] [6 4]  [56 32] [98 100]
+;; Conquer
+;; [24 [12]] [6 [4]]  [56 [32]] [100 [98]]
+;; [24 [12 6]] [100 [98 56]]
+;; [100 [98 56 24]]
+;; This results in ≤ n + log2n - 2 (8 + 3 - 2 = 9)
+;; e.g. 9 comparisions ≤ n + log2n - 2 (8 + 3 - 2 = 9)
+;;;; 9 ≤ 8 + 3 - 2
+;;;; 9 ≤ 9
+
+(defn max 
+  "A linear max without using Clojure's built-in max"
+  [coll]
+  (loop [x 0
+         [y & ys] coll]
+    (cond
+      (nil? y) x
+      (> x y) (recur x ys)
+      (< x y) (recur y ys))))
+
+(defn knockout [[wina losea] [winb loseb]]
+  (if (> wina winb)
+    [wina (concat losea [winb])]
+    [winb (concat loseb [wina])]))
+
+(defn winner [coll]
+  (let [cnt (count coll)
+        mid (/ cnt 2)]
+    (cond
+      (= 2 cnt)
+      (if (> (first coll) (second coll))
+        [(first coll) [(second coll)]]
+        [(second coll) [(first coll)]])
+      
+      :else 
+      (let [c (winner (take mid coll))
+            d (winner (drop mid coll))]
+        (knockout c d)))))
+
+(defn second-place [coll]
+  (max (second (winner coll))))
+
+(comment
+  (winner [12 24 6 4 56 32 98 100])
+  (second-place [12 24 6 4 56 32 98 100])) ;; => 98
