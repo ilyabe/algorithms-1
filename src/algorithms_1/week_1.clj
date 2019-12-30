@@ -112,19 +112,16 @@
     [wina (concat losea [winb])]
     [winb (concat loseb [wina])]))
 
-(defn winner [coll]
+(defn winner [[a b :as coll]]
   (let [cnt (count coll)
         mid (/ cnt 2)]
     (cond
-      (= 2 cnt)
-      (if (> (first coll) (second coll))
-        [(first coll) [(second coll)]]
-        [(second coll) [(first coll)]])
-      
-      :else 
-      (let [c (winner (take mid coll))
-            d (winner (drop mid coll))]
-        (knockout c d)))))
+      (= 2 cnt) (if (> a b)
+                  [a [b]]
+                  [b [a]])
+      :else (let [c (winner (take mid coll))
+                  d (winner (drop mid coll))]
+              (knockout c d)))))
 
 (defn second-place [coll]
   (max (second (winner coll))))
